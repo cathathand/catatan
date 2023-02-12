@@ -1,0 +1,35 @@
+Ini adalah panduan mulai cepat untuk menggunakan Easy-RSA versi 3. 
+Bantuan terperinci tentang penggunaan dan perintah khusus dapat ditemukan dengan menjalankan
+./easyrsa -h. 
+Dokumentasi tambahan dapat ditemukan di direktori 
+doc/.
+Jika Anda memutakhirkan dari seri Easy-RSA 2.x, ada Upgrade-Notes yang tersedia, juga di bawah jalur doc/.
+
+Menyiapkan dan menandatangani permintaan pertama Berikut adalah ikhtisar singkat tentang apa yang perlu terjadi untuk memulai PKI baru dan menandatangani sertifikat entitas pertama Anda:
+Pilih sistem untuk bertindak sebagai CA Anda dan buat PKI dan CA baru:
+
+./easyrsa init-pki
+./easyrsa build-ca
+
+Pada sistem yang meminta sertifikat, init PKI-nya sendiri dan menghasilkan keypair/request. Perhatikan bahwa init-pki hanya digunakan ketika ini dilakukan pada sistem yang terpisah (atau setidaknya dir PKI yang terpisah.) Ini adalah prosedur yang disarankan. Jika Anda tidak menggunakan prosedur yang disarankan ini, lewati langkah import-req berikutnya.
+
+cd /usr/share/easy-rsa/3.0.3 atau export EASYRSA=/etc/openvpn/easy-rsa
+cp -rf * /etc/openvpn/easy-rsa/
+cd /etc/openvpn/easy-rsa/
+./easyrsa init-pki
+./easyrsa build-ca
+./easyrsa gen-dh Generate Diffie-Hellman parameters
+./easyrsa gen-req node2 nopass
+mkdir /etc/openvpn/keys/
+chmod 750 /etc/openvpn/keys
+cp -a /etc/openvpn/easy-rsa/pki/ca.crt /etc/openvpn/keys/
+cp -a /etc/openvpn/easy-rsa/pki/dh.pem /etc/openvpn/keys/dh2048.pem
+cp -a /etc/openvpn/easy-rsa/pki/issued/node2.crt /etc/openvpn/keys/
+cp -a /etc/openvpn/easy-rsa/pki/private/node2.key /etc/openvpn/keys/
+cd /etc/openvpn/easy-rsa
+./easyrsa gen-req  deepak nopass
+cp -a /etc/openvpn/easy-rsa/pki/issued/deepak.crt /etc/openvpn/keys/
+cp -a /etc/openvpn/easy-rsa/pki/private/deepak.key /etc/openvpn/keys/
+
+
+
